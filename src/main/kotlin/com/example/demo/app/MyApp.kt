@@ -9,6 +9,8 @@ import com.jfoenix.controls.JFXButton
 import com.jfoenix.controls.JFXDecorator
 import com.jfoenix.svg.SVGGlyph
 import com.jfoenix.svg.SVGGlyphLoader
+import javafx.application.Platform
+import javafx.application.Platform.setImplicitExit
 import javafx.collections.FXCollections
 import javafx.scene.Scene
 import javafx.scene.control.Alert
@@ -33,16 +35,18 @@ import kotlin.concurrent.thread
 
 class MyApp : App() {
 
-    companion object{
-        var staticStage:Stage by singleAssign()
-        var staticApp:App by singleAssign()
+    companion object {
+        var staticStage: Stage by singleAssign()
+        var staticApp: App by singleAssign()
 
     }
+
     override fun start(stage: Stage) {
         super.start(stage)
+        setImplicitExit(false)
         staticApp = this
         staticStage = stage
-        val scene = Scene(myDecorator(), 500.0, 700.0)
+        val scene = Scene(myDecorator(), 400.0, 500.0)
         scene.stylesheets.add("/css/jfoenix-components.css")
         stage.apply {
             this.scene = scene
@@ -52,12 +56,6 @@ class MyApp : App() {
         }
 
     }
-
-
-
-
-
-
 
 
 }

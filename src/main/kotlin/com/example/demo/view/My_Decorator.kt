@@ -7,8 +7,6 @@ import com.jfoenix.controls.JFXAlert
 import com.jfoenix.controls.JFXButton
 import com.jfoenix.controls.JFXDecorator
 import com.jfoenix.controls.JFXDialogLayout
-import com.jfoenix.svg.SVGGlyph
-import com.sun.jndi.toolkit.url.Uri
 import javafx.scene.control.Label
 import javafx.scene.paint.Color
 import javafx.stage.Modality
@@ -40,9 +38,14 @@ fun myDecorator(): JFXDecorator {
                         textFill = Color.WHITE
                         action {
                             //MyApp.staticStage.close()
+                            if(SystemTray.getSystemTray().trayIcons.isNotEmpty()){
+                                 MyApp.staticStage.close()
+                                return@action
+                            }
                             val imgRes = MyApp.staticApp.resources.url("/imgs/tray.png")
                             val tray = ImageIcon(imgRes).image
                             val trayIcon = TrayIcon(tray)
+
                             trayIcon.toolTip = "生活助手"
                             trayIcon.addMouseListener(object : MouseAdapter() {
                                 override fun mouseClicked(e: MouseEvent?) {
@@ -53,7 +56,9 @@ fun myDecorator(): JFXDecorator {
                                 add(MenuItem("打开").apply {
                                     addActionListener {
                                         println("你点击打开！")
-                                        MyApp.staticStage.show()
+                                      runLater{
+                                            MyApp.staticStage.show()
+                                        }
                                     }
                                 })
                                 add(MenuItem("退出").apply {
@@ -63,6 +68,7 @@ fun myDecorator(): JFXDecorator {
                                 })
                             }
                             try {
+
                                 SystemTray.getSystemTray().add(trayIcon)
                             } catch (e: Exception) {
                                 println(e.toString())
@@ -82,8 +88,8 @@ fun myDecorator(): JFXDecorator {
         this.setOnCloseButtonAction {
             //拦截退出事件
             JFXAlert<Unit>(MyApp.staticStage).apply {
-                this.animation = JFXAlertAnimation.BOTTOM_ANIMATION
-                setSize(450.0, 200.0)
+                this.animation = JFXAlertAnimation.CENTER_ANIMATION
+                setSize(250.0, 100.0)
                 this.setContent(layout)
                 initModality(Modality.APPLICATION_MODAL)
             }.show()
