@@ -130,9 +130,6 @@ fun netChecker(): Fragment {
                     this.progressProperty().bind(loadFlag)
 
                 }
-               // this += JFXSpinner().apply {
-                //    this.visibleProperty().bind(loadFlag)
-             //   }
                 this += JFXButton("关闭").apply {
 
                     spacing = 10.0

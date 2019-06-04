@@ -9,9 +9,9 @@ import javax.json.JsonObject
  * 图书Modal
  */
 class Books(name: String, number: String) : JsonModel {
-     val numberProperty = SimpleStringProperty(number)
+    private val numberProperty = SimpleStringProperty(number)
     var number by numberProperty
-    val nameProperty = SimpleStringProperty(name)
+    private val nameProperty = SimpleStringProperty(name)
     var name by nameProperty
 
 }

@@ -7,9 +7,11 @@ import com.jfoenix.controls.JFXAlert
 import com.jfoenix.controls.JFXButton
 import com.jfoenix.controls.JFXDecorator
 import com.jfoenix.controls.JFXDialogLayout
+import javafx.scene.Node
 import javafx.scene.control.Label
 import javafx.scene.paint.Color
 import javafx.stage.Modality
+import javafx.stage.Stage
 import tornadofx.*
 import java.awt.*
 import java.awt.event.MouseAdapter
@@ -25,8 +27,8 @@ import kotlin.math.log
 /**
  * 标题栏
  */
-fun myDecorator(): JFXDecorator {
-    return   JFXDecorator(MyApp.staticStage, find(MainView::class).root).apply dec@{
+fun myDecorator(stage: Stage = MyApp.staticStage,view: Node = find(MainView::class).root ,myTitle:String = "生活助手v1.0"): JFXDecorator {
+    return   JFXDecorator(stage, view).apply dec@{
         //退出对话框布局
         val layout = JFXDialogLayout().apply lay@{
             setBody(Label("真的要退出吗？"))
@@ -37,11 +39,12 @@ fun myDecorator(): JFXDecorator {
                         }
                         textFill = Color.WHITE
                         action {
-                            //MyApp.staticStage.close()
-                            if(SystemTray.getSystemTray().trayIcons.isNotEmpty()){
+                            stage.close()
+                            /**  if(SystemTray.getSystemTray().trayIcons.isNotEmpty()){
                                  MyApp.staticStage.close()
                                 return@action
                             }
+
                             val imgRes = MyApp.staticApp.resources.url("/imgs/tray.png")
                             val tray = ImageIcon(imgRes).image
                             val trayIcon = TrayIcon(tray)
@@ -77,17 +80,17 @@ fun myDecorator(): JFXDecorator {
                                 this@dec.isVisible = false
                                 MyApp.staticStage.hide()
                             }
-
+    **/
                         }
 
 
                     })
-            setHeading(Label("生活助手"))
+            setHeading(Label(myTitle))
         }
 
         this.setOnCloseButtonAction {
             //拦截退出事件
-            JFXAlert<Unit>(MyApp.staticStage).apply {
+            JFXAlert<Unit>(stage).apply {
                 this.animation = JFXAlertAnimation.CENTER_ANIMATION
                 setSize(250.0, 100.0)
                 this.setContent(layout)
@@ -98,7 +101,7 @@ fun myDecorator(): JFXDecorator {
         setGraphic(SVGIcon(color = Color.WHITE, svgShape = SVG_logo).apply {
             this.rotate = -180.0
         })
-        title = "生活助手"
+        title = myTitle
 
     }
 

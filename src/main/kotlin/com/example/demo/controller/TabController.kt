@@ -2,13 +2,12 @@ package com.example.demo.controller
 
 import com.example.demo.app.MyApp
 import com.example.demo.modal.Books
+import com.example.demo.modal.colorRandom
+import com.example.demo.modal.othersButtons
 
 import com.example.demo.view.MainView
-import com.example.demo.view.toolsView.ResultFragment
+import com.example.demo.view.toolsView.*
 
-import com.example.demo.view.toolsView.WebViewFragment
-import com.example.demo.view.toolsView.bookSearch
-import com.example.demo.view.toolsView.netChecker
 import com.jfoenix.controls.JFXButton
 import com.jfoenix.effects.JFXDepthManager
 import javafx.beans.property.SimpleDoubleProperty
@@ -18,11 +17,13 @@ import javafx.geometry.Pos
 import javafx.scene.control.ContextMenu
 import javafx.scene.control.MenuItem
 import javafx.scene.control.Tab
+import javafx.scene.layout.GridPane
 import javafx.scene.paint.Color
 import javafx.scene.web.WebView
 import javafx.stage.StageStyle
 import tornadofx.*
 import java.awt.Desktop
+import java.awt.Label
 import java.io.StringReader
 import java.lang.Exception
 import java.net.URI
@@ -126,28 +127,60 @@ class TabController : Controller() {
                     }
                 }
             }
-        }
-                , Tab("网易云热评").apply {
-            content = WebView().apply {
-                this.engine.load("https://www.borebooks.top/yb/wyy/index.php")
-            }
         }, Tab("常用网址").apply {
-            content = vbox {
-                label {
-                    text = "学校官网"
-                    setOnMouseClicked {
-                        Desktop.getDesktop().browse(URI("https://www.borebooks.top/yb/wyy/index.php"))
+            content =
+                gridpane {
+                    useMaxWidth = true
+                    style{
+                        backgroundColor += c("#4d4d4d")
+                    }
+                    alignment = Pos.CENTER
+                    vgap = 5.0
+                    hgap  = 5.0
+                    row {
+                        addColumn(0, openUrlButton("学校官网",0,"http://www.wendaedu.com.cn/index.html"))
+                        addColumn(1, openUrlButton("教务系统",0,"http://218.22.58.76:2346/home.aspx"))
+                        addColumn(2, openUrlButton("图书系统",0,"http://172.16.1.43/wxjs/tmjs_form.asp"))
+                    }
+                    row {
+                        addColumn(0, openUrlButton("易班网站",0,"http://www.yiban.cn/"))
+                        addColumn(1, openUrlButton("四六级报考",0,"http://cet-bm.neea.cn/"))
+                        addColumn(2, openUrlButton("教育考试网",0,"http://www.neea.edu.cn/"))
+                    }
+                    row {
+                        addColumn(0, openUrlButton("文院公众号",1).apply {
+                            onHover {
+                                tooltip {
+                                    graphic = imageview("/icon/wd.png")
+                                }
+                            }
+                        })
+                        addColumn(1, openUrlButton("校园V印",0,"http://www.vyin.com/public/toIndex.action"))
+                        addColumn(2, openUrlButton("网络中心",0))
                     }
                 }
-                label {
-                    text = "教务系统"
+
+        },
+                Tab("其它作品").apply {
+                    content = flowpane{
+                        style{
+                            backgroundColor += c("#4d4d4d")
+                        }
+                        hgap = 5.0
+                        vgap = 5.0
+                        paddingAll = 10.0
+                        //spacing = 10.0
+                       for( i in othersButtons){
+                           this += i.apply {
+                               style{
+
+                                   backgroundColor += c("#ffffff")
+                               }
+                           }
+                       }
+                    }
 
                 }
-                label { text = "图书系统" }
-                label { text = "学校官网" }
-                label { text = "学校官网" }
-            }
-        }
         )
     }
 
@@ -155,14 +188,14 @@ class TabController : Controller() {
         val bookUrl = "https://www.borebooks.top/wxx2.php?name="
         runAsync {
             var searchValue = str
-            var res:Rest.Response? = null
+            var res: Rest.Response? = null
             if (str.isNullOrBlank()) {
                 searchValue = this@TabController.searchName.value
             }
             try {
-               res = find(MainView::class).__api.get("$bookUrl$searchValue")
+                res = find(MainView::class).__api.get("$bookUrl$searchValue")
                 res
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 res
 
             }
