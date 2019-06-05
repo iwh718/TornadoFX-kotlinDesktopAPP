@@ -1,7 +1,8 @@
-package com.example.demo.view.toolsView
+package com.example.demo.smallView
 
 import com.example.demo.controller.TabController
 import com.example.demo.modal.SVG_SEARCH
+import com.example.demo.myButton
 import com.jfoenix.controls.JFXButton
 import com.jfoenix.controls.JFXTextField
 import com.jfoenix.effects.JFXDepthManager
@@ -21,14 +22,10 @@ import java.util.concurrent.Callable
 /**
  * 图书检索
  */
-fun bookSearch(): StackPane {
-
-
-    val card = StackPane().apply cd@{
+fun bookSearch(): StackPane  =  StackPane().apply cd@{
         this.setOnKeyPressed {
             if (it.code == KeyCode.ENTER) {
                 if (find(TabController::class).searchName.value.isNotBlank()) find(TabController::class).searchBook()
-
             }
         }
         prefWidth = 150.0
@@ -114,7 +111,7 @@ fun bookSearch(): StackPane {
             graphic = SVGGlyph(-1, "search", SVG_SEARCH, Color.WHITE).apply {
                 this.setPrefSize(40.0, 40.0)
             }
-
+            //设置fab按钮始终固定在中间
             translateYProperty().bind(Bindings.createDoubleBinding(Callable { header.boundsInParent.height - this.height / 2 }, header.boundsInParentProperty(), this.heightProperty()))
             ripplerFill = c("#4d4d4d")
             StackPane.setMargin(this, Insets(0.0, 40.0, 0.0, 0.0))
@@ -123,12 +120,9 @@ fun bookSearch(): StackPane {
         val content = VBox().apply {
             children.addAll(header, body)
         }
-
+        //用add与 this += 是一样的
         add(content)
         add(sendBtn)
 
 
     }
-
-    return card
-}

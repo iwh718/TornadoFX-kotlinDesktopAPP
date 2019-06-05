@@ -1,8 +1,9 @@
-package com.example.demo.view.toolsView
+package com.example.demo.fragment
 
 import com.example.demo.modal.SVG_logo
 import com.jfoenix.controls.JFXButton
 import com.jfoenix.controls.JFXSnackbar
+import javafx.scene.Node
 import javafx.scene.Parent
 import javafx.scene.control.ContextMenu
 import javafx.scene.control.MenuItem
@@ -22,7 +23,7 @@ import java.lang.Exception
  * @author IWH
  * time:2019.06.03
  */
-class YbTools : Fragment("易班文章助手:目前仅支持易班话题文章:--by_iwh_2019.06.04", SVGIcon(SVG_logo)) {
+class YbFragment : Fragment("易班文章助手:目前仅支持易班话题文章:--by_iwh_2019.06.04", SVGIcon(SVG_logo)) {
     private var ybText: TextField by singleAssign()
     private var ybWeb: WebView by singleAssign()
 
@@ -83,6 +84,7 @@ class YbTools : Fragment("易班文章助手:目前仅支持易班话题文章:-
 
                 }
             }
+            //分栏面板
             splitpane {
                 fitToParentHeight()
                 ybEditor = htmleditor {
