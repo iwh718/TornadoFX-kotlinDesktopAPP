@@ -13,23 +13,6 @@ import javafx.scene.paint.Color
 import javafx.stage.Stage
 import tornadofx.*
 
-
-
-
-
-/**
- * pop菜单
- */
-fun myPopup():JFXPopup{
-    val list = JFXListView<Label>()
-    for (i in 1..4) {
-        list.items.add(Label("Item $i"))
-    }
-    return  JFXPopup(list)
-
-}
-
-
 /**
  * 警告模态窗口
  */
@@ -41,13 +24,4 @@ fun show(str: String = "hello", viewStage: Stage) {
         setSize(450.0, 200.0)
         this.setContent(Label( str ))
     }.showAndWait()
-}
-
-/**
- * SnackBar
- */
-fun mySnackbar(str:String,pane:Pane):JFXSnackbar{
-  return JFXSnackbar(pane).apply {
-     enqueue(JFXSnackbar.SnackbarEvent(Label(str)))
-  }
 }

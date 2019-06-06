@@ -1,40 +1,33 @@
 package com.example.demo.controller
 
 import com.example.demo.app.MyApp
+import com.example.demo.fragment.SearchResultFragment
 import com.example.demo.modal.Books
-import com.example.demo.modal.colorRandom
 import com.example.demo.modal.othersButtons
 
-import com.example.demo.view.MainView
-import com.example.demo.view.toolsView.*
+import com.example.demo.fragment.WebViewFragment
+import com.example.demo.openUrlButton
+import com.example.demo.smallView.*
 
 import com.jfoenix.controls.JFXButton
 import com.jfoenix.effects.JFXDepthManager
-import javafx.beans.property.SimpleDoubleProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Insets
 import javafx.geometry.Pos
-import javafx.scene.control.ContextMenu
-import javafx.scene.control.MenuItem
 import javafx.scene.control.Tab
-import javafx.scene.layout.GridPane
 import javafx.scene.paint.Color
-import javafx.scene.web.WebView
+import javafx.stage.Modality
 import javafx.stage.StageStyle
 import tornadofx.*
-import java.awt.Desktop
-import java.awt.Label
-import java.io.StringReader
 import java.lang.Exception
-import java.net.URI
-import javax.json.*
 
 
 /**
- * tab控制器
+ * tab控制器动态创建布局
  */
 class TabController : Controller() {
     val searchName = SimpleStringProperty("")
+    private val __api = Rest()
     private val searchData = arrayListOf<Books>()
     fun start(): ArrayList<Tab> {
 
@@ -70,13 +63,15 @@ class TabController : Controller() {
                             this.image = MyApp.staticApp.resources.image("/icon/scores.png").apply {
                                 fitWidth = 60.0
                                 fitHeight = 60.0
+                                //图片等比例
                                 setPreserveRatio(true)
                             }
 
                         }
                         this.add(JFXButton("期末成绩查询").apply {
                             action {
-                                WebViewFragment("https://www.borebooks.top/classWD/wdClass.php").openModal()
+                                //modality：none为不阻塞其它窗口
+                                WebViewFragment("https://www.borebooks.top/classWD/wdClass.php").openModal(modality = Modality.NONE)
                             }
                             buttonType = JFXButton.ButtonType.RAISED
                             spacing = 10.0
@@ -121,6 +116,7 @@ class TabController : Controller() {
                                 backgroundColor += c("#1a1a1a")
                             }
                             action {
+                                //网络检测
                                 netChecker().openModal(stageStyle = StageStyle.UNDECORATED)
                             }
                         })
@@ -184,6 +180,9 @@ class TabController : Controller() {
         )
     }
 
+    /**
+     * API请求
+     */
     fun searchBook(str: String? = null) {
         val bookUrl = "https://www.borebooks.top/wxx2.php?name="
         runAsync {
@@ -193,12 +192,13 @@ class TabController : Controller() {
                 searchValue = this@TabController.searchName.value
             }
             try {
-                res = find(MainView::class).__api.get("$bookUrl$searchValue")
+                res = __api.get("$bookUrl$searchValue")
                 res
             } catch (e: Exception) {
                 res
 
             }
+            //中缀调用,Ui不可以换行
         } ui {
             if (it == null) {
                 println("获取失败！")
@@ -208,7 +208,7 @@ class TabController : Controller() {
                 it.list().forEach { it2 ->
                     searchData.add(Books(it2.asJsonArray()[0].asJsonObject()["name"].toString(), it2.asJsonArray()[0].asJsonObject()["number"].toString()))
                 }
-                ResultFragment(searchData).openModal()
+                SearchResultFragment(searchData).openModal(modality = Modality.NONE)
 
             }
         }

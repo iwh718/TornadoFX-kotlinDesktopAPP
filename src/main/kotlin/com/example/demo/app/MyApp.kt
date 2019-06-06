@@ -1,5 +1,6 @@
 package com.example.demo.app
 import com.example.demo.view.myDecorator
+import javafx.application.Application
 import javafx.application.Platform.setImplicitExit
 import javafx.scene.Scene
 
@@ -13,35 +14,47 @@ import java.io.IOException
 import kotlin.concurrent.thread
 
 /**
- * kotlin-jfoenix Demo
+ * exe4j打包主函数
+ */
+fun main(args: Array<String>) {
+    launch<MyApp>(args)
+}
+
+
+/**
+ * kotlin-TornadoFx Demo
+ * UI:Jfoenix
  * @author IWH
  */
 
-class MyApp : App() {
+class MyApp : App( ) {
 
     companion object {
         var staticStage: Stage by singleAssign()
         var staticApp: App by singleAssign()
 
+
+
     }
 
     override fun start(stage: Stage) {
         super.start(stage)
-        setImplicitExit(false)
         staticApp = this
         staticStage = stage
+        //设置场景大小,注入视图节点
         val scene = Scene(myDecorator(), 400.0, 500.0)
+        //载入样式表
         scene.stylesheets.add("/css/jfoenix-components.css")
         stage.apply {
+            //添加场景
             this.scene = scene
             //置顶
             isAlwaysOnTop = true
+            //调出stage
             show()
         }
 
     }
-
-
 }
 
 

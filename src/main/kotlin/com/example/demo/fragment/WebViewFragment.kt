@@ -1,10 +1,13 @@
-package com.example.demo.view.toolsView
+package com.example.demo.fragment
 
 import com.example.demo.modal.SVG_logo
 import javafx.beans.property.SimpleStringProperty
 import javafx.scene.Parent
 import tornadofx.*
 
+/**
+ * 通用webView视图层
+ */
 class WebViewFragment( url:String):Fragment(url){
     private val u = SimpleStringProperty(url)
     override val root: Parent = webview {

@@ -1,10 +1,11 @@
 package com.example.demo.app
 
-import com.example.demo.view.MainView
 import javafx.scene.text.FontWeight
 import tornadofx.*
-import java.awt.Color
 
+/**
+ * App函数可以加入样式表
+ */
 class Styles : Stylesheet() {
     companion object {
         val heading by cssclass()

@@ -2,16 +2,22 @@ package com.example.demo.controller
 
 
 import com.example.demo.app.show
+import com.example.demo.view.myDecorator
+import com.example.demo.fragment.YbFragment
 import com.jfoenix.controls.JFXSpinner
 import com.jfoenix.controls.JFXToolbar
 
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
+import javafx.scene.Scene
 
 import javafx.scene.layout.StackPane
+import javafx.stage.Stage
 import tornadofx.*
+import java.awt.Desktop
 
 import java.lang.Exception
+import java.net.URI
 import java.time.LocalDate
 
 
@@ -36,7 +42,7 @@ class ToolbarController : Controller() {
             (it as HttpURLRequest).connection.readTimeout = 3000
         }
     }
-    //开始初始化控制器
+    //开始进行网络请求，获取天气
     fun start(toolbar: JFXToolbar) {
         //进度圈
         val sp = StackPane().apply {
@@ -101,6 +107,25 @@ class ToolbarController : Controller() {
             } finally {
                 it?.close()
             }
+        }
+    }
+
+    /**
+     * 汉堡菜单的选项
+     */
+    fun browserUrl(type:Int){
+        when(type){
+            //添加QQ群
+            0 -> Desktop.getDesktop().browse(URI("https://shang.qq.com/wpa/qunwpa?idkey=c9944d479e25db7c874da7b4c18ff1d5a0484088ebd806fdadfcd522ed9a28c4"))
+            1 -> {
+                val stageTmp = Stage()
+                stageTmp.scene = Scene(myDecorator(stageTmp, YbFragment().root, "易班文章助手:目前仅支持易班话题文章:--by_iwh_2019.06.04"), 700.0, 600.0).apply {
+                    this.stylesheets.add("/css/jfoenix-components.css")
+                }
+                stageTmp.show()
+            }
+            2 ->  Desktop.getDesktop().browse(URI("https://blog.csdn.net/u010913414?t=1"))
+            3 ->  Desktop.getDesktop().browse(URI("https://github.com/iwh718?tab=repositories"))
         }
     }
 }
