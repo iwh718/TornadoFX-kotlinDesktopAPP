@@ -3,11 +3,12 @@ package com.example.demo.fragment
 import com.example.demo.modal.Books
 import javafx.scene.Parent
 import tornadofx.*
+import java.util.*
 
 /**
  * 图书搜索结果碎片视图层
  */
-class SearchResultFragment(data:ArrayList<Books>): Fragment(title = "双击单元格复制"){
+class SearchResultFragment(data: ArrayList<Books>): Fragment(title = "双击单元格复制"){
     override val root: Parent = stackpane {
         vbox {
             prefWidth = 600.0

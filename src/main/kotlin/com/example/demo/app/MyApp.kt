@@ -1,6 +1,7 @@
 package com.example.demo.app
 import com.example.demo.view.myDecorator
 import javafx.application.Application
+import javafx.application.Application.launch
 import javafx.application.Platform.setImplicitExit
 import javafx.scene.Scene
 
@@ -20,7 +21,6 @@ fun main(args: Array<String>) {
     launch<MyApp>(args)
 }
 
-
 /**
  * kotlin-TornadoFx Demo
  * UI:Jfoenix
@@ -32,11 +32,7 @@ class MyApp : App( ) {
     companion object {
         var staticStage: Stage by singleAssign()
         var staticApp: App by singleAssign()
-
-
-
     }
-
     override fun start(stage: Stage) {
         super.start(stage)
         staticApp = this

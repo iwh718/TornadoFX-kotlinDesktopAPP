@@ -20,6 +20,8 @@ import javafx.stage.Modality
 import javafx.stage.StageStyle
 import tornadofx.*
 import java.lang.Exception
+import java.util.*
+import java.util.concurrent.CompletableFuture.runAsync
 
 
 /**
@@ -156,8 +158,8 @@ class TabController : Controller() {
                     }
                 }
 
-        },
-                Tab("其它作品").apply {
+        }
+              /**  Tab("其它作品").apply {
                     content = flowpane{
                         style{
                             backgroundColor += c("#4d4d4d")
@@ -176,7 +178,7 @@ class TabController : Controller() {
                        }
                     }
 
-                }
+                }**/
         )
     }
 

@@ -11,6 +11,7 @@ import javafx.geometry.Pos
 import javafx.scene.Parent
 
 import tornadofx.*
+import java.awt.SystemColor.text
 
 import java.lang.Exception
 
